@@ -1,0 +1,6 @@
+Kit Idea:
+- Primary is 3 hit where if you hit all 3 you get the ult effect for some duration
+- Right mouse is the ground slam which knocks up and slows/stuns all enemies around him
+- Shift is the headbutt which dashes him in a direction and knocks back any enemies he hit
+- R is the trample where he gets a stack each time he hits during it and if he gets a certain number of stacks it empowers his
+	next attack or something. This one could use some thought
