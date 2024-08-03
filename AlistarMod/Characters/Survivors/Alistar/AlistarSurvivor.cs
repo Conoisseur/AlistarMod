@@ -47,6 +47,7 @@ namespace AlistarMod.Survivors.Alistar
             maxHealth = 500f,
             healthRegen = 1.5f,
             armor = 0f,
+            moveSpeed = 10f,
 
             jumpCount = 1,
         };
@@ -252,7 +253,7 @@ namespace AlistarMod.Survivors.Alistar
                 activationStateMachineName = "Weapon2",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
 
-                baseRechargeInterval = 1f,
+                baseRechargeInterval = AlistarStaticValues.pulverizeCooldown,
                 baseMaxStock = 1,
 
                 rechargeStock = 1,

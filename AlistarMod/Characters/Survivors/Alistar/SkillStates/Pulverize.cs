@@ -2,35 +2,32 @@
 using AlistarMod.Survivors.Alistar;
 using RoR2;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using System.Collections.Generic;
 
 namespace AlistarMod.Survivors.Alistar.SkillStates
 {
     public class Pulverize : BaseSkillState
     {
-        public static float damageCoefficient = AlistarStaticValues.gunDamageCoefficient;
-        public static float procCoefficient = 1f;
-        public static float baseDuration = 0.6f;
-        //delay on firing is usually ass-feeling. only set this if you know what you're doing
-        public static float firePercentTime = 0.0f;
-        public static float force = 800f;
-        public static float recoil = 3f;
-        public static float range = 256f;
-        public static GameObject tracerEffectPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
+        public static float damageCoefficient = AlistarStaticValues.pulverizeDamageCoefficient;
+        public static float procCoefficient = AlistarStaticValues.pulverizeProcCoefficient;
+        public static float baseDuration = 0.2f;
+        public static float baseKnockupForce = 1000f; // Minimum knockup force applied to enemies
+        public static float tailoredKnockupForceMultiplier = 17f; // Used to calculate force to apply to enemy based on it's mass and other features
+        public static float abilityRadius = 30f;
+        public static GameObject rubbleScatterEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/SurvivorPod/PodGroundImpact.prefab").WaitForCompletion();
+        public static GameObject groundSlamEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleGuardGroundSlam.prefab").WaitForCompletion();
 
         private float duration;
-        private float fireTime;
         private bool hasFired;
-        private string muzzleString;
+        private HashSet<HealthComponent> hitTargets;
 
         public override void OnEnter()
         {
             base.OnEnter();
             duration = baseDuration / attackSpeedStat;
-            fireTime = firePercentTime * duration;
-            characterBody.SetAimTimer(2f);
-            muzzleString = "Muzzle";
-
-            PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
+            PlayAnimation("FullBody, Override", "Pulverize", "Pulverize.playbackRate", this.duration);
+            hitTargets = new HashSet<HealthComponent>();
         }
 
         public override void OnExit()
@@ -42,9 +39,9 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
         {
             base.FixedUpdate();
 
-            if (fixedAge >= fireTime)
+            if (fixedAge >= duration * 0.5f && !hasFired)
             {
-                Fire();
+                Slam();
             }
 
             if (fixedAge >= duration && isAuthority)
@@ -54,51 +51,69 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
             }
         }
 
-        private void Fire()
+        private void Slam()
         {
             if (!hasFired)
             {
                 hasFired = true;
 
-                characterBody.AddSpreadBloom(1.5f);
-                EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, gameObject, muzzleString, false);
-                Util.PlaySound("HenryShootPistol", gameObject);
+                // Play ground slam effect
+                EffectManager.SpawnEffect(rubbleScatterEffectPrefab, new EffectData
+                {
+                    origin = characterBody.footPosition,
+                    scale = abilityRadius
+                }, true);
 
+                EffectManager.SpawnEffect(groundSlamEffectPrefab, new EffectData
+                {
+                    origin = characterBody.footPosition,
+                    scale = abilityRadius
+                }, true);
+
+                Util.PlaySound("Play_imp_overlord_attack2_smash", gameObject);
+
+                // Apply damage and knockup in a radius
                 if (isAuthority)
                 {
-                    Ray aimRay = GetAimRay();
-                    AddRecoil(-1f * recoil, -2f * recoil, -0.5f * recoil, 0.5f * recoil);
-
-                    new BulletAttack
+                    Collider[] hitColliders = Physics.OverlapSphere(transform.position, abilityRadius, LayerIndex.entityPrecise.mask);
+                    foreach (Collider hitCollider in hitColliders)
                     {
-                        bulletCount = 1,
-                        aimVector = aimRay.direction,
-                        origin = aimRay.origin,
-                        damage = damageCoefficient * damageStat,
-                        damageColorIndex = DamageColorIndex.Default,
-                        damageType = DamageType.Generic,
-                        falloffModel = BulletAttack.FalloffModel.None,
-                        maxDistance = range,
-                        force = force,
-                        hitMask = LayerIndex.CommonMasks.bullet,
-                        minSpread = 0f,
-                        maxSpread = 0f,
-                        isCrit = RollCrit(),
-                        owner = gameObject,
-                        muzzleName = muzzleString,
-                        smartCollision = true,
-                        procChainMask = default,
-                        procCoefficient = procCoefficient,
-                        radius = 0.75f,
-                        sniper = false,
-                        stopperMask = LayerIndex.CommonMasks.bullet,
-                        weapon = null,
-                        tracerEffectPrefab = tracerEffectPrefab,
-                        spreadPitchScale = 1f,
-                        spreadYawScale = 1f,
-                        queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FirePistol2.hitEffectPrefab,
-                    }.Fire();
+                        HurtBox hurtBox = hitCollider.GetComponent<HurtBox>();
+                        if (hurtBox && Util.IsValid(hurtBox) && !hitTargets.Contains(hurtBox.healthComponent))
+                        {
+                            TeamIndex team = base.GetTeam();
+                            if (FriendlyFireManager.ShouldSplashHitProceed(hurtBox.healthComponent, team))
+                            {
+                                hitTargets.Add(hurtBox.healthComponent); // Add to hit targets to ensure it's hit only once
+
+                                DamageInfo damageInfo = new DamageInfo
+                                {
+                                    attacker = base.gameObject,
+                                    damage = damageCoefficient * damageStat,
+                                    position = hurtBox.transform.position,
+                                    procCoefficient = procCoefficient,
+                                    crit = base.RollCrit(),
+                                    damageColorIndex = DamageColorIndex.Default,
+                                    force = Vector3.zero  // Not applying any knockup here
+                                };
+                                hurtBox.healthComponent.TakeDamage(damageInfo);
+                                GlobalEventManager.instance.OnHitEnemy(damageInfo, hurtBox.healthComponent.gameObject);
+
+                                CharacterBody body = hurtBox.healthComponent.body;
+                                if (body)
+                                {
+                                    if (body.characterMotor && body.characterMotor.isGrounded)
+                                    {
+                                        body.characterMotor.ApplyForce(Vector3.up * (baseKnockupForce + (body.characterMotor.mass*tailoredKnockupForceMultiplier)), true, false);
+                                    }
+                                    else if (body.rigidbody)
+                                    {
+                                        body.rigidbody.AddForce(Vector3.up * (baseKnockupForce + (body.characterMotor.mass * tailoredKnockupForceMultiplier)), ForceMode.Impulse);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
