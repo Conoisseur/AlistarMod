@@ -56,8 +56,8 @@ namespace AlistarMod.Survivors.Alistar
             #endregion
 
             #region Utility
-            Language.Add(prefix + "UTILITY_ROLL_NAME", "Roll");
-            Language.Add(prefix + "UTILITY_ROLL_DESCRIPTION", "Roll a short distance, gaining <style=cIsUtility>300 armor</style>. <style=cIsUtility>You cannot be hit during the roll.</style>");
+            Language.Add(prefix + "HEADBUTT_NAME", "Headbutt");
+            Language.Add(prefix + "HEADBUTT_DESCRIPTION", $"Alistar rams a target with his head, dealing <style=cIsDamage>{100f * AlistarStaticValues.headbuttDamageCoefficient}% damage</style> and <style=cIsUtility>knocking them back</style>.");
             #endregion
 
             #region Special

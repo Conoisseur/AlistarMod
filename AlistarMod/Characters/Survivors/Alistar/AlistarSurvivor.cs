@@ -283,16 +283,16 @@ namespace AlistarMod.Survivors.Alistar
             //here's a skilldef of a typical movement skill.
             SkillDef utilitySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryRoll",
-                skillNameToken = ALISTAR_PREFIX + "UTILITY_ROLL_NAME",
-                skillDescriptionToken = ALISTAR_PREFIX + "UTILITY_ROLL_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                skillName = "Headbutt",
+                skillNameToken = ALISTAR_PREFIX + "HEADBUTT_NAME",
+                skillDescriptionToken = ALISTAR_PREFIX + "HEADBUTT_DESCRIPTION",
+                skillIcon = assetBundle.LoadAsset<Sprite>("headbutt_icon"),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(Roll)),
-                activationStateMachineName = "Body",
+                activationState = new EntityStates.SerializableEntityStateType(typeof(Headbutt)),
+                activationStateMachineName = "Weapon2",
                 interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
 
-                baseRechargeInterval = 4f,
+                baseRechargeInterval = AlistarStaticValues.headbuttCooldown,
                 baseMaxStock = 1,
 
                 rechargeStock = 1,
