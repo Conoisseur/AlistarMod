@@ -17,5 +17,18 @@ namespace AlistarMod.Survivors.Alistar
         public const float headbuttDamageCoefficient = 6.0f;
         public const float headbuttProcCoefficient = 1.0f;
         public const float headbuttCooldown = 4.0f;
+
+
+        // Trample values
+        public const float trampleDamageCoefficient = 0.5f;
+        public const float trampleProcCoefficient = 0.1f;
+        public const float trampleCooldown = 1.0f;
+        public static float trampleBaseDuration = 5f;
+        public static float trampleBaseDamageInterval = 0.5f; // How often damage is applied during ability duration
+        public static float trampleRadius = 12f;
+        public static float trampleKnockupForce = 2000f;
+        public static float trampleBuffDuration = 5f;
+        public static float trampleDebuffDuration = 8f;
+
     }
 }

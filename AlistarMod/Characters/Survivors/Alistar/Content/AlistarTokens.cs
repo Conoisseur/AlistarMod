@@ -61,8 +61,8 @@ namespace AlistarMod.Survivors.Alistar
             #endregion
 
             #region Special
-            Language.Add(prefix + "SPECIAL_BOMB_NAME", "Bomb");
-            Language.Add(prefix + "SPECIAL_BOMB_DESCRIPTION", $"Throw a bomb for <style=cIsDamage>{100f * AlistarStaticValues.bombDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "TRAMPLE_NAME", "Trample");
+            Language.Add(prefix + "TRAMPLE_DESCRIPTION", $"Alistar tramples the ground, dealing <style=cIsDamage>{100f * AlistarStaticValues.trampleDamageCoefficient}% damage</style> to nearby enemies. Hits for 10 times, each applying a <style=cIsUtility>debuff stack</style>; at 3 stacks, enemies' movement is impaired. Alistar also gains a stack per hit, and at 5 stacks, he lets out a roar, increasing his <style=cIsUtility>movement speed</style> and <style=cIsUtility>attack speed</style>.");
             #endregion
 
             #region Achievements

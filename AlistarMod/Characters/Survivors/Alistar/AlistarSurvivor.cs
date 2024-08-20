@@ -321,20 +321,33 @@ namespace AlistarMod.Survivors.Alistar
             //a basic skill. some fields are omitted and will just have default values
             SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryBomb",
-                skillNameToken = ALISTAR_PREFIX + "SPECIAL_BOMB_NAME",
-                skillDescriptionToken = ALISTAR_PREFIX + "SPECIAL_BOMB_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                skillName = "Trample",
+                skillNameToken = ALISTAR_PREFIX + "TRAMPLE_NAME",
+                skillDescriptionToken = ALISTAR_PREFIX + "TRAMPLE_DESCRIPTION",
+                skillIcon = assetBundle.LoadAsset<Sprite>("trample_icon"),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Trample)),
                 //setting this to the "weapon2" EntityStateMachine allows us to cast this skill at the same time primary, which is set to the "weapon" EntityStateMachine
-                activationStateMachineName = "Weapon2", interruptPriority = EntityStates.InterruptPriority.Skill,
+                activationStateMachineName = "Weapon2",
+                interruptPriority = EntityStates.InterruptPriority.Skill,
 
+                baseRechargeInterval = 1f,
                 baseMaxStock = 1,
-                baseRechargeInterval = 10f,
 
-                isCombatSkill = true,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+
+                resetCooldownTimerOnUse = false,
+                fullRestockOnAssign = true,
+                dontAllowPastMaxStocks = false,
                 mustKeyPress = false,
+                beginSkillCooldownOnSkillEnd = true,
+
+                isCombatSkill = false,
+                canceledFromSprinting = false,
+                cancelSprintingOnActivation = false,
+                forceSprintDuringState = true,
             });
 
             Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);
