@@ -44,7 +44,7 @@ namespace AlistarMod.Survivors.Alistar
             crosshair = Assets.LoadCrosshair("Standard"),
             podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
 
-            maxHealth = 500f,
+            maxHealth = 5000f,
             healthRegen = 1.5f,
             armor = 0f,
             moveSpeed = 10f,
@@ -129,6 +129,7 @@ namespace AlistarMod.Survivors.Alistar
         {
             //example of how to create a HitBoxGroup. see summary for more details
             Prefabs.SetupHitBoxGroup(characterModelObject, "SwordGroup", "SwordHitbox");
+            Prefabs.SetupHitBoxGroup(characterModelObject, "AlistarMeleeGroup", "AlistarMeleeHitbox");
         }
 
         public override void InitializeEntityStateMachines() 

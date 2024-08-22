@@ -13,7 +13,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
 
         public override void OnEnter()
         {
-            hitboxGroupName = "SwordGroup";
+            hitboxGroupName = "AlistarMeleeGroup";
 
             damageType = DamageType.Generic;
             damageCoefficient = AlistarStaticValues.unbreakableWillDamageCoefficient;
