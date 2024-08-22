@@ -1,111 +1,103 @@
-﻿using EntityStates;
-using AlistarMod.Survivors.Alistar;
+﻿using AlistarMod.Modules.BaseStates;
 using RoR2;
 using UnityEngine;
 
 namespace AlistarMod.Survivors.Alistar.SkillStates
 {
-    public class UnbreakableWill : BaseSkillState
+    public class UnbreakableWill : BaseMeleeAttack
     {
-        public static float damageCoefficient = AlistarStaticValues.gunDamageCoefficient;
-        public static float procCoefficient = 1f;
-        public static float baseDuration = 0.6f;
-        //delay on firing is usually ass-feeling. only set this if you know what you're doing
-        public static float firePercentTime = 0.0f;
-        public static float force = 800f;
-        public static float recoil = 3f;
-        public static float range = 256f;
-        public static GameObject tracerEffectPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
-
-        private float duration;
-        private float fireTime;
-        private bool hasFired;
-        private string muzzleString;
+        private Vector3 initialForward;
+        private bool hasMovedForward = false;
+        private float moveSpeed = 10f; // Adjust the speed as needed
+        private InputBankTest inputBank;
 
         public override void OnEnter()
         {
+            hitboxGroupName = "SwordGroup";
+
+            damageType = DamageType.Generic;
+            damageCoefficient = AlistarStaticValues.unbreakableWillDamageCoefficient;
+            procCoefficient = AlistarStaticValues.UnbreakableWillProcCoefficient;
+            pushForce = 300f;
+            bonusForce = Vector3.zero;
+            baseDuration = 1f;
+
+            attackStartPercentTime = 0.2f;
+            attackEndPercentTime = 0.4f;
+            earlyExitPercentTime = 0.6f;
+
+            hitStopDuration = 0.012f;
+            attackRecoil = 0.5f;
+            hitHopVelocity = 4f;
+
+            swingSoundString = "HenrySwordSwing";
+            hitSoundString = "";
+            muzzleString = swingIndex % 2 == 0 ? "SwingLeft" : "SwingRight";
+            playbackRateParam = "Slash.playbackRate";
+            swingEffectPrefab = AlistarAssets.swordSwingEffect;
+            hitEffectPrefab = AlistarAssets.swordHitImpactEffect;
+
+            impactSound = AlistarAssets.swordHitSoundEvent.index;
+
+            // Store the initial forward direction
+            initialForward = characterDirection.forward;
+
+            // Cache the input bank
+            inputBank = characterBody.inputBank;
+
+            // Disable player input
+            if (inputBank != null)
+            {
+                inputBank.moveVector = Vector3.zero;
+            }
+
             base.OnEnter();
-            duration = baseDuration / attackSpeedStat;
-            fireTime = firePercentTime * duration;
-            characterBody.SetAimTimer(2f);
-            muzzleString = "Muzzle";
-
-            PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
-        }
-
-        public override void OnExit()
-        {
-            base.OnExit();
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
 
-            if (fixedAge >= fireTime)
+            // Ensure player input remains disabled during the attack
+            if (inputBank != null)
             {
-                Fire();
+                inputBank.moveVector = Vector3.zero;
             }
 
-            if (fixedAge >= duration && isAuthority)
+            // Apply forward movement during the attack without removing existing velocity
+            if (characterMotor && !hasMovedForward && fixedAge >= baseDuration * attackStartPercentTime)
             {
-                outer.SetNextStateToMain();
-                return;
-            }
-        }
-
-        private void Fire()
-        {
-            if (!hasFired)
-            {
-                hasFired = true;
-
-                characterBody.AddSpreadBloom(1.5f);
-                EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, gameObject, muzzleString, false);
-                Util.PlaySound("HenryShootPistol", gameObject);
-
-                if (isAuthority)
-                {
-                    Ray aimRay = GetAimRay();
-                    AddRecoil(-1f * recoil, -2f * recoil, -0.5f * recoil, 0.5f * recoil);
-
-                    new BulletAttack
-                    {
-                        bulletCount = 1,
-                        aimVector = aimRay.direction,
-                        origin = aimRay.origin,
-                        damage = damageCoefficient * damageStat,
-                        damageColorIndex = DamageColorIndex.Default,
-                        damageType = DamageType.Generic,
-                        falloffModel = BulletAttack.FalloffModel.None,
-                        maxDistance = range,
-                        force = force,
-                        hitMask = LayerIndex.CommonMasks.bullet,
-                        minSpread = 0f,
-                        maxSpread = 0f,
-                        isCrit = RollCrit(),
-                        owner = gameObject,
-                        muzzleName = muzzleString,
-                        smartCollision = true,
-                        procChainMask = default,
-                        procCoefficient = procCoefficient,
-                        radius = 0.75f,
-                        sniper = false,
-                        stopperMask = LayerIndex.CommonMasks.bullet,
-                        weapon = null,
-                        tracerEffectPrefab = tracerEffectPrefab,
-                        spreadPitchScale = 1f,
-                        spreadYawScale = 1f,
-                        queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FirePistol2.hitEffectPrefab,
-                    }.Fire();
-                }
+                Vector3 forwardMovement = initialForward * moveSpeed;
+                characterMotor.velocity += forwardMovement;
+                hasMovedForward = true;
             }
         }
 
-        public override InterruptPriority GetMinimumInterruptPriority()
+        protected override void PlayAttackAnimation()
         {
-            return InterruptPriority.PrioritySkill;
+            PlayCrossfade("FullBody, Override", "UnbreakableWill" + (1 + swingIndex), "UnbreakableWill.playbackRate", duration, 0.1f * duration);
+        }
+
+        protected override void PlaySwingEffect()
+        {
+            base.PlaySwingEffect();
+        }
+
+        protected override void OnHitEnemyAuthority()
+        {
+            base.OnHitEnemyAuthority();
+        }
+
+        public override void OnExit()
+        {
+            // Do not reset velocity to ensure existing movement continues after the attack
+            // Re-enable player input
+            if (inputBank != null)
+            {
+                inputBank.moveVector = Vector3.zero;
+            }
+
+            base.OnExit();
         }
     }
 }

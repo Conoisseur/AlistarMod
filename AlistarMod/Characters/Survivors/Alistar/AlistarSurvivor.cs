@@ -217,6 +217,7 @@ namespace AlistarMod.Survivors.Alistar
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Primary);
 
+
             //the primary skill is created using a constructor for a typical primary
             //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
             SteppedSkillDef primarySkillDef1 = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
@@ -233,7 +234,27 @@ namespace AlistarMod.Survivors.Alistar
             primarySkillDef1.stepCount = 2;
             primarySkillDef1.stepGraceDuration = 0.5f;
 
-            Skills.AddPrimarySkills(bodyPrefab, primarySkillDef1);
+            //Skills.AddPrimarySkills(bodyPrefab, primarySkillDef1);
+
+
+
+            //the primary skill is created using a constructor for a typical primary
+            //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
+            SteppedSkillDef unbreakableWillSkillDef = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
+                (
+                    "UnbreakableWill",
+                    ALISTAR_PREFIX + "UNBREAKABLE_WILL_NAME",
+                    ALISTAR_PREFIX + "UNBREAKABLE_WILL_DESCRIPTION",
+                    assetBundle.LoadAsset<Sprite>("unbreakable_will_icon"),
+                    new EntityStates.SerializableEntityStateType(typeof(SkillStates.UnbreakableWill)),
+                    "Weapon2",
+                    true
+                ));
+            //custom Skilldefs can have additional fields that you can set manually
+            unbreakableWillSkillDef.stepCount = 3;
+            unbreakableWillSkillDef.stepGraceDuration = 0.5f;
+
+            Skills.AddPrimarySkills(bodyPrefab, unbreakableWillSkillDef);
         }
 
         private void AddSecondarySkills()
