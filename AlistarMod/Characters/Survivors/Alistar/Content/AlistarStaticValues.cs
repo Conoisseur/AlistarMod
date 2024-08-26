@@ -31,7 +31,7 @@ namespace AlistarMod.Survivors.Alistar
         public static float trampleDebuffDuration = 8f;
 
         // UnbreakableWill values
-        public const float unbreakableWillDamageCoefficient = 6.0f;
+        public const float unbreakableWillDamageCoefficient = 2.8f;
         public const float UnbreakableWillProcCoefficient = 1.0f;
         public const float UnbreakableWillCooldown = 4.0f;
 

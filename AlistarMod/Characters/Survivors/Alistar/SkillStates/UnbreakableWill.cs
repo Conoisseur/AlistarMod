@@ -1,6 +1,7 @@
 ﻿using AlistarMod.Modules.BaseStates;
 using RoR2;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace AlistarMod.Survivors.Alistar.SkillStates
 {
@@ -8,8 +9,9 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
     {
         private Vector3 initialForward;
         private bool hasMovedForward = false;
-        private float moveSpeed = 10f; // Adjust the speed as needed
+        private float moveSpeed = 20f; // Speed Alistar is propelled by when swinging
         private InputBankTest inputBank;
+        private const float armorBuffDuration = 2f; 
 
         public override void OnEnter()
         {
@@ -30,12 +32,13 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
             attackRecoil = 0.5f;
             hitHopVelocity = 4f;
 
-            swingSoundString = "HenrySwordSwing";
+            swingSoundString = "Play_clayBruiser_step";
             hitSoundString = "";
-            muzzleString = swingIndex % 2 == 0 ? "SwingLeft" : "SwingRight";
-            playbackRateParam = "Slash.playbackRate";
-            swingEffectPrefab = AlistarAssets.swordSwingEffect;
-            hitEffectPrefab = AlistarAssets.swordHitImpactEffect;
+            muzzleString = "AlistarMeleeHitbox";
+            playbackRateParam = "UnbreakableWill.playbackRate";
+
+            swingEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Loader/LoaderSwingBasic.prefab").WaitForCompletion(); ;
+            hitEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ClayBruiser/ClayShockwaveEffect.prefab").WaitForCompletion();
 
             impactSound = AlistarAssets.swordHitSoundEvent.index;
 
@@ -64,7 +67,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
                 inputBank.moveVector = Vector3.zero;
             }
 
-            // Apply forward movement during the attack without removing existing velocity
+            // Apply forward movement during the attack
             if (characterMotor && !hasMovedForward && fixedAge >= baseDuration * attackStartPercentTime)
             {
                 Vector3 forwardMovement = initialForward * moveSpeed;
@@ -86,6 +89,12 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
         protected override void OnHitEnemyAuthority()
         {
             base.OnHitEnemyAuthority();
+
+            // Apply armor buff if this is the third punch (swingIndex 2)
+            if (swingIndex == 2)
+            {
+                characterBody.AddTimedBuff(RoR2Content.Buffs.ArmorBoost, armorBuffDuration);
+            }
         }
 
         public override void OnExit()

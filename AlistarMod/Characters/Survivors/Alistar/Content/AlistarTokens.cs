@@ -46,10 +46,8 @@ namespace AlistarMod.Survivors.Alistar
             #endregion
 
             #region Primary
-            Language.Add(prefix + "PRIMARY_SLASH_NAME", "Sword");
-            Language.Add(prefix + "PRIMARY_SLASH_DESCRIPTION", Tokens.agilePrefix + $"Swing forward for <style=cIsDamage>{100f * AlistarStaticValues.swordDamageCoefficient}% damage</style>.");
             Language.Add(prefix + "UNBREAKABLE_WILL_NAME", "Unbreakable Will");
-            Language.Add(prefix + "UNBREAKABLE_WILL_DESCRIPTION", Tokens.agilePrefix + $"Alistar swings his fists for <style=cIsDamage>{100f * AlistarStaticValues.unbreakableWillDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "UNBREAKABLE_WILL_DESCRIPTION", $"Alistar delivers a series of punches for <style=cIsDamage>{100f * AlistarStaticValues.unbreakableWillDamageCoefficient}% damage</style> each. Landing the third strike empowers him with a short <style=cIsUtility>armor buff.</style>");
             #endregion
 
             #region Secondary

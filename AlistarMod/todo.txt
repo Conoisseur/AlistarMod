@@ -4,3 +4,14 @@ Kit Idea:
 - Shift is the headbutt which dashes him in a direction and knocks back any enemies he hit
 - R is the trample where he gets a stack each time he hits during it and if he gets a certain number of stacks it empowers his
 	next attack or something. This one could use some thought
+
+Fetatures to add:
+- Skins
+- Voicelines/cutsom sfx
+- Possibly make 3rd hit of melee combo do more damage though this may be overkill with the armor buff
+
+Polish to add:
+- Entrance is something more suitable than drop pod
+- Shield indicator around him when Unbreakable Will armor buff active
+- Look into improving trample effect indicator
+- Potential to add more suitable custom crosshair
