@@ -41,7 +41,7 @@ namespace AlistarMod.Survivors.Alistar
             bodyColor = Color.white,
             sortPosition = 100,
 
-            crosshair = Assets.LoadCrosshair("Standard"),
+            crosshair = MyAssets.LoadCrosshair("Standard"),
             podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
 
             maxHealth = 5000f,
@@ -127,8 +127,6 @@ namespace AlistarMod.Survivors.Alistar
 
         public void AddHitboxes()
         {
-            //example of how to create a HitBoxGroup. see summary for more details
-            Prefabs.SetupHitBoxGroup(characterModelObject, "SwordGroup", "SwordHitbox");
             Prefabs.SetupHitBoxGroup(characterModelObject, "AlistarMeleeGroup", "AlistarMeleeHitbox");
         }
 

@@ -4,7 +4,7 @@ using AlistarMod.Modules.Achievements;
 namespace AlistarMod.Survivors.Alistar.Achievements
 {
     //automatically creates language tokens "ACHIEVMENT_{identifier.ToUpper()}_NAME" and "ACHIEVMENT_{identifier.ToUpper()}_DESCRIPTION" 
-    [RegisterAchievement(identifier, unlockableIdentifier, null, null)]
+    [RegisterAchievement(identifier, unlockableIdentifier, null, 10, null)]
     public class AlistarMasteryAchievement : BaseMasteryAchievement
     {
         public const string identifier = AlistarSurvivor.ALISTAR_PREFIX + "masteryAchievement";
