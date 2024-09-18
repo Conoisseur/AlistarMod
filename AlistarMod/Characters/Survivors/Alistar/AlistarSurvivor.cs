@@ -44,10 +44,10 @@ namespace AlistarMod.Survivors.Alistar
             crosshair = MyAssets.LoadCrosshair("Standard"),
             podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
 
-            maxHealth = 5000f,
+            maxHealth = 200f,
             healthRegen = 1.5f,
             armor = 0f,
-            moveSpeed = 10f,
+            moveSpeed = 8f,
 
             jumpCount = 1,
         };
@@ -351,7 +351,7 @@ namespace AlistarMod.Survivors.Alistar
                 activationStateMachineName = "Weapon2",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
 
-                baseRechargeInterval = 1f,
+                baseRechargeInterval = AlistarStaticValues.trampleCooldown,
                 baseMaxStock = 1,
 
                 rechargeStock = 1,

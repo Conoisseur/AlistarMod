@@ -53,7 +53,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
             // Recalculate damage interval based on the current attack speed
             damageInterval = baseDamageInterval / characterBody.attackSpeed;
 
-            damageTimer += Time.fixedDeltaTime;
+            damageTimer += Time.deltaTime;
             if (damageTimer >= damageInterval)
             {
                 DealDamage();

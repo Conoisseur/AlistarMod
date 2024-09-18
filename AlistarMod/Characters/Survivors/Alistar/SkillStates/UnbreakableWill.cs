@@ -33,7 +33,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
             hitHopVelocity = 4f;
 
             swingSoundString = "Play_clayBruiser_step";
-            hitSoundString = "";
+            hitSoundString = "Play_roboBall_takehit";
             muzzleString = "AlistarMeleeHitbox";
             playbackRateParam = "UnbreakableWill.playbackRate";
 
