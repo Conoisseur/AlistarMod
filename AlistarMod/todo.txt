@@ -7,6 +7,7 @@ Kit Idea:
 - Passive is just healing based on enemy deaths
 
 Fetatures to add:
+- Passive
 - Skins
 - Voicelines/cutsom sfx
 - Possibly make 3rd hit of melee combo do more damage though this may be overkill with the armor buff
