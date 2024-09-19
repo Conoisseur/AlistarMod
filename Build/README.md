@@ -20,13 +20,6 @@ those who he can't close in on.**
 ![Screenshot](link)
 
 ## Skills
-![Skills Image](https://github.com/user-attachments/assets/42ccc02b-5f8f-48ac-971e-a43fbc432667)
-- **[Skill 1 Name]:** [Skill 1 Description]
-- **[Skill 2 Name]:** [Skill 2 Description]
-- **[Skill 3 Name]:** [Skill 3 Description]
-- **[Ultimate Skill Name]:** [Ultimate Skill Description]
-
-## Skills
 
 <table>
   <tr>
@@ -37,33 +30,44 @@ those who he can't close in on.**
   <tr>
     <td><b>Unbreakable Will</b></td>
     <td><img src="https://ddragon.leagueoflegends.com/cdn/14.13.1/img/spell/FerociousHowl.png" alt="Skill 1 Image" width="200" height="200"></td>
-    <td>Alistar delivers a series of punches for <b>280%</b> each. Landing the third strike empowers him with a short armor buff</td>
+    <td>Alistar delivers a series of punches for <b>280%</b> each. Landing the third strike <i>empowers him with a short armor buff</i></td>
   </tr>
   <tr>
     <td><b>Pulverize</b></td>
     <td><img src="https://ddragon.leagueoflegends.com/cdn/14.13.1/img/spell/Pulverize.png" alt="Skill 2 Image" width="200" height="200"></td>
-    <td>Skill 2 Description</td>
+    <td>Alistar smashes the ground, dealing <b>580%</b> damage to nearby enemies and <i>knocking them into the air</i>.</td>
   </tr>
   <tr>
     <td><b>Headbutt</b></td>
     <td><img src="https://ddragon.leagueoflegends.com/cdn/14.13.1/img/spell/Headbutt.png" alt="Skill 3 Image" width="200" height="200"></td>
-    <td>Skill 3 Description</td>
+    <td>Alistar rams a target with his head, dealing <b>600%</b> damage and <i>knocking them back</i>.</td>
   </tr>
   <tr>
     <td><b>Trample</b></td>
     <td><img src="https://ddragon.leagueoflegends.com/cdn/14.13.1/img/spell/AlistarE.png" alt="Ultimate Skill Image" width="200" height="200"></td>
-    <td>Ultimate Skill Description</td>
+    <td>Alistar tramples the ground, dealing <b>50%</b> damage to nearby enemies. Hits for 10 times, each applying a <i>debuff stack</i>; at 3 stacks, enemies' movement is impaired. Alistar also gains a stack per hit, and at 5 stacks, he lets out a roar, increasing his <i>movement speed</i> and <i>attack speed</i></td>
   </tr>
 </table>
 
 
 ## Known Issues
-- List any known issues or bugs with the mod.
+- None currently
 
 ## TODO
-- List any future plans or features you intend to add to the mod.
+Fetatures will probably be added at some point:
+- Passive
+- Skins
+- Voicelines/cutsom sfx
+- Custom jump animation
+
+Potential Polish I might look into:
+- Using something other than drop pod for stage entrance
+- Shield indicator around him when Unbreakable Will armor buff active
+- Add ability indicators, so you can see where your abilities are hitting
+- Add a more suitable crosshair if one exists
+- Add death animation
 
 ## Credits
-- **[Contributor 1 Name]** for [Contribution]
+- Riot games for League of Legends Alistar assets
 - **[Contributor 2 Name]** for [Contribution]
 
