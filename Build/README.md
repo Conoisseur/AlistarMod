@@ -50,8 +50,12 @@ those who he can't close in on.**
 </table>
 
 
-## Known Issues
-- None currently
+## Known Issues (To Fix)
+- Various Networking/Multiplayer issues (UNTIL THESE ARE FIXED I DON'T RECOMMEND PLAYING HIM IN MULTIPLAYER. Ideally this would be patched before release but I have less time to work on this and want to get it out now)
+  - Other playyers can't see Alistar's ability animations
+  - Only the game host can do damage using Alistar's abilities; other players using can't deal damage using abilities
+  - Some of his abilities can be used to hit and knockback allies (might leave this partly in as it's pretty funny to headbutt another player)
+  
 
 ## TODO
 Fetatures will probably be added at some point:
@@ -68,6 +72,9 @@ Potential Polish I might look into:
 - Add death animation
 
 ## Credits
-- Riot games for League of Legends Alistar assets
-- **[Contributor 2 Name]** for [Contribution]
+- Riot games -  for League of Legends Alistar assets
+- CafeHo - SamiraMod was used as reference
+- LemonLust - SettMod was used as reference
+- Risk Of Rain Modding Discord - some answers found here
+- TheTimeSweeper - this mod used HenryMod as base template and reference
 
