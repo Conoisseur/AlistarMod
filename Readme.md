@@ -10,7 +10,7 @@ Though he was enslaved and forced into the life of a gladiator,
 his unbreakable will was what kept him from truly becoming a beast.
 Now, free of the chains of his former masters,
 he fights in the name of the downtrodden and the disadvantaged,
-his rage as much a weapon as his horns, hooves and fists.*
+his rage as much a weapon as his horns, hooves, and fists.*
 
 **Alistar is a melee-bruiser survivor with lots of crowd control but little range.
 He excels at sending hordes of enemies flying but is susceptible to aerial foes and 
@@ -52,13 +52,13 @@ those who he can't close in on.**
 
 ## Known Issues (To Fix)
 - Various Networking/Multiplayer issues (UNTIL THESE ARE FIXED I DON'T RECOMMEND PLAYING HIM IN MULTIPLAYER. Ideally this would be patched before release but I have less time to work on this and want to get it out now)
-  - Other playyers can't see Alistar's ability animations
-  - Only the game host can do damage using Alistar's abilities; other players using can't deal damage using abilities
-  - Some of his abilities can be used to hit and knockback allies (might leave this partly in as it's pretty funny to headbutt another player)
+  - Other players can't see Alistar's ability animations
+  - Only the game host can do damage using Alistar's abilities; other players can't deal damage using abilities
+  - Some of his abilities can be used to hit and knockback allies (I might leave this partly in as it's pretty funny to headbutt another player)
   
 
 ## TODO
-Fetatures will probably be added at some point:
+Features will probably be added at some point:
 - Passive
 - Skins
 - Voicelines/cutsom sfx
