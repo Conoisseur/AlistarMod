@@ -16,9 +16,6 @@ his rage as much a weapon as his horns, hooves and fists.*
 He excels at sending hordes of enemies flying but is susceptible to aerial foes and 
 those who he can't close in on.**
 
-## Screenshot
-![Screenshot](link)
-
 ## Skills
 
 <table>
@@ -51,14 +48,19 @@ those who he can't close in on.**
 
 
 ## Known Issues (To Fix)
-- Various Networking/Multiplayer issues (UNTIL THESE ARE FIXED I DON'T RECOMMEND PLAYING HIM IN MULTIPLAYER. Ideally this would be patched before release but I have less time to work on this and want to get it out now)
-  - Other playyers can't see Alistar's ability animations
-  - Only the game host can do damage using Alistar's abilities; other players using can't deal damage using abilities
+- Various Networking/Multiplayer issues (UNTIL THESE ARE FIXED I DON'T RECOMMEND PLAYING HIM IN MULTIPLAYER. Ideally this would be patched before release but I have less time to work on this than I had before and want to get it out now)
+  - Other players can't see Alistar's ability animations
+  - Only the game host can do damage using Alistar's abilities; other players using can't deal damage using his abilities
   - Some of his abilities can be used to hit and knockback allies (might leave this partly in as it's pretty funny to headbutt another player)
-  
+- If you headbutt directly down you take fall damage
 
 ## TODO
-Fetatures will probably be added at some point:
+Priority List
+- Remove all unecessary code/cleanup codebase
+- Fix networking/playing with other Alistars
+- Clean up this README and add the Github link
+
+Features that will probably be added at some point:
 - Passive
 - Skins
 - Voicelines/cutsom sfx
