@@ -19,3 +19,9 @@ Polish to add:
 - Look into improving trample effect indicator
 - Potential to add more suitable custom crosshair
 - death animation
+
+Stuff for next ship
+- Fix agile tag on ability descriptions
+- cleanup readme and add more screenshots
+- fix all terminal errors
+- fix networking errors

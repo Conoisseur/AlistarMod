@@ -16,7 +16,12 @@ his rage as much a weapon as his horns, hooves and fists.*
 He excels at sending hordes of enemies flying but is susceptible to aerial foes and 
 those who he can't close in on.**
 
+![Screenshot](https://raw.githubusercontent.com/Conoisseur/AlistarMod/refs/heads/master/imgs/alistar_risk.png)
+
 ## Skills
+
+### Primary
+![Screenshot](https://raw.githubusercontent.com/Conoisseur/AlistarMod/refs/heads/master/imgs/alistar_risk.png)
 
 <table>
   <tr>
