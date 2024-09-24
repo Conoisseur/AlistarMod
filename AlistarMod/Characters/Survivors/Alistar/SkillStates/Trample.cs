@@ -166,7 +166,8 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
 
         private void AddBuff()
         {
-            characterBody.AddTimedBuff(RoR2Content.Buffs.WarCryBuff, AlistarStaticValues.trampleBuffDuration);
+            characterBody.AddTimedBuff(RoR2Content.Buffs.Energized, AlistarStaticValues.trampleBuffDuration);
+            characterBody.AddTimedBuff(RoR2Content.Buffs.WhipBoost, AlistarStaticValues.trampleBuffDuration);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

@@ -37,7 +37,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
             muzzleString = "AlistarMeleeHitbox";
             playbackRateParam = "UnbreakableWill.playbackRate";
 
-            swingEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Loader/LoaderSwingBasic.prefab").WaitForCompletion(); ;
+            swingEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Huntress/HuntressGlaiveSwing.prefab").WaitForCompletion(); ;
             hitEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ClayBruiser/ClayShockwaveEffect.prefab").WaitForCompletion();
 
             impactSound = AlistarAssets.swordHitSoundEvent.index;

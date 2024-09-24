@@ -21,7 +21,7 @@ Polish to add:
 - death animation
 
 Stuff for next ship
-- Fix agile tag on ability descriptions
+- Fix agile tag on ability descriptions/look into tags
 - cleanup readme and add more screenshots
 - fix all terminal errors
 - fix networking errors

@@ -56,16 +56,7 @@ namespace AlistarMod.Survivors.Alistar
         {
                 new CustomRendererInfo
                 {
-                    childName = "SwordModel",
-                    material = assetBundle.LoadMaterial("matHenry"),
-                },
-                new CustomRendererInfo
-                {
-                    childName = "GunModel",
-                },
-                new CustomRendererInfo
-                {
-                    childName = "Model",
+                    childName = "AlistarModel",
                 }
         };
 
@@ -176,7 +167,7 @@ namespace AlistarMod.Survivors.Alistar
             GenericSkill passiveGenericSkill = Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, "PassiveSkill");
             SkillDef passiveSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryPassive",
+                skillName = "AlistarPassive",
                 skillNameToken = ALISTAR_PREFIX + "PASSIVE_NAME",
                 skillDescriptionToken = ALISTAR_PREFIX + "PASSIVE_DESCRIPTION",
                 keywordTokens = new string[] { "KEYWORD_AGILE" },
@@ -216,27 +207,6 @@ namespace AlistarMod.Survivors.Alistar
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Primary);
 
-
-            //the primary skill is created using a constructor for a typical primary
-            //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
-            SteppedSkillDef primarySkillDef1 = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
-                (
-                    "HenrySlash",
-                    ALISTAR_PREFIX + "PRIMARY_SLASH_NAME",
-                    ALISTAR_PREFIX + "PRIMARY_SLASH_DESCRIPTION",
-                    assetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
-                    new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)),
-                    "Weapon",
-                    true
-                ));
-            //custom Skilldefs can have additional fields that you can set manually
-            primarySkillDef1.stepCount = 2;
-            primarySkillDef1.stepGraceDuration = 0.5f;
-
-            //Skills.AddPrimarySkills(bodyPrefab, primarySkillDef1);
-
-
-
             //the primary skill is created using a constructor for a typical primary
             //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
             SteppedSkillDef unbreakableWillSkillDef = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
@@ -252,6 +222,7 @@ namespace AlistarMod.Survivors.Alistar
             //custom Skilldefs can have additional fields that you can set manually
             unbreakableWillSkillDef.stepCount = 3;
             unbreakableWillSkillDef.stepGraceDuration = 0.5f;
+            unbreakableWillSkillDef.keywordTokens = new string[] { };
 
             Skills.AddPrimarySkills(bodyPrefab, unbreakableWillSkillDef);
         }
@@ -266,7 +237,7 @@ namespace AlistarMod.Survivors.Alistar
                 skillName = "Pulverize",
                 skillNameToken = ALISTAR_PREFIX + "PULVERIZE_NAME",
                 skillDescriptionToken = ALISTAR_PREFIX + "PULVERIZE_DESCRIPTION",
-                keywordTokens = new string[] { "KEYWORD_AGILE" },
+                keywordTokens = new string[] { },
                 skillIcon = assetBundle.LoadAsset<Sprite>("pulverize_icon"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Pulverize)),
@@ -300,8 +271,7 @@ namespace AlistarMod.Survivors.Alistar
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Utility);
 
-            //here's a skilldef of a typical movement skill.
-            SkillDef utilitySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
+            SkillDef headbuttSkillDef = Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "Headbutt",
                 skillNameToken = ALISTAR_PREFIX + "HEADBUTT_NAME",
@@ -331,15 +301,14 @@ namespace AlistarMod.Survivors.Alistar
                 forceSprintDuringState = true,
             });
 
-            Skills.AddUtilitySkills(bodyPrefab, utilitySkillDef1);
+            Skills.AddUtilitySkills(bodyPrefab, headbuttSkillDef);
         }
 
         private void AddSpecialSkills()
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Special);
 
-            //a basic skill. some fields are omitted and will just have default values
-            SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
+            SkillDef trampleSkillDef = Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "Trample",
                 skillNameToken = ALISTAR_PREFIX + "TRAMPLE_NAME",
@@ -370,7 +339,7 @@ namespace AlistarMod.Survivors.Alistar
                 forceSprintDuringState = true,
             });
 
-            Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);
+            Skills.AddSpecialSkills(bodyPrefab, trampleSkillDef);
         }
         #endregion skills
         
