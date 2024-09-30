@@ -4,6 +4,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 namespace AlistarMod.Survivors.Alistar.SkillStates
 {
@@ -18,16 +19,14 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
         public static GameObject rubbleScatterEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/SurvivorPod/PodGroundImpact.prefab").WaitForCompletion();
         public static GameObject groundSlamEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleGuardGroundSlam.prefab").WaitForCompletion();
 
-        private float duration;
-        private bool hasFired;
-        private HashSet<HealthComponent> hitTargets;
+        private float duration = baseDuration; // Default duration is base duration
+        private bool hasFired = false;
 
         public override void OnEnter()
         {
             base.OnEnter();
             duration = baseDuration / attackSpeedStat;
             PlayAnimation("FullBody, Override", "Pulverize", "Pulverize.playbackRate", this.duration);
-            hitTargets = new HashSet<HealthComponent>();
         }
 
         public override void OnExit()
@@ -39,7 +38,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
         {
             base.FixedUpdate();
 
-            if (fixedAge >= duration * 0.5f && !hasFired)
+            if (isAuthority && fixedAge >= duration * 0.5f && !hasFired)
             {
                 Slam();
             }
@@ -57,7 +56,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
             {
                 hasFired = true;
 
-                // Play ground slam effect
+                // Play ground slam effect and sound
                 EffectManager.SpawnEffect(rubbleScatterEffectPrefab, new EffectData
                 {
                     origin = characterBody.footPosition,
@@ -72,48 +71,48 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
 
                 Util.PlaySound("Play_imp_overlord_attack2_smash", gameObject);
 
-                // Apply damage and knockup in a radius
+                // Create damaging blast in area
                 if (isAuthority)
                 {
-                    Collider[] hitColliders = Physics.OverlapSphere(transform.position, abilityRadius, LayerIndex.entityPrecise.mask);
-                    foreach (Collider hitCollider in hitColliders)
+                    BlastAttack blastAttack = new BlastAttack();
+                    blastAttack.radius = abilityRadius;
+                    blastAttack.procCoefficient = 0f;
+                    blastAttack.position = transform.position;
+                    blastAttack.attacker = characterBody.gameObject;
+                    blastAttack.crit = false;
+                    blastAttack.baseDamage = damageCoefficient * damageStat;
+                    blastAttack.canRejectForce = false;
+                    blastAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+                    blastAttack.baseForce = 0;
+                    blastAttack.bonusForce = Vector3.zero;
+                    //blastAttack.bonusForce = Vector3.up * baseKnockupForce;
+                    blastAttack.teamIndex = characterBody.teamComponent.teamIndex;
+                    blastAttack.damageType = DamageType.Generic;
+                    blastAttack.attackerFiltering = AttackerFiltering.Default;
+                    BlastAttack.Result blastResult = blastAttack.Fire();
+                    
+                    // Create individual blast for each hit enemy which knocks them up
+                    foreach (BlastAttack.HitPoint hit_enemy in blastResult.hitPoints)
                     {
-                        HurtBox hurtBox = hitCollider.GetComponent<HurtBox>();
-                        if (hurtBox && Util.IsValid(hurtBox) && !hitTargets.Contains(hurtBox.healthComponent))
-                        {
-                            TeamIndex team = base.GetTeam();
-                            if (FriendlyFireManager.ShouldSplashHitProceed(hurtBox.healthComponent, team))
-                            {
-                                hitTargets.Add(hurtBox.healthComponent); // Add to hit targets to ensure it's hit only once
 
-                                DamageInfo damageInfo = new DamageInfo
-                                {
-                                    attacker = base.gameObject,
-                                    damage = damageCoefficient * damageStat,
-                                    position = hurtBox.transform.position,
-                                    procCoefficient = procCoefficient,
-                                    crit = base.RollCrit(),
-                                    damageColorIndex = DamageColorIndex.Default,
-                                    force = Vector3.zero  // Not applying any knockup here
-                                };
-                                hurtBox.healthComponent.TakeDamage(damageInfo);
-                                GlobalEventManager.instance.OnHitEnemy(damageInfo, hurtBox.healthComponent.gameObject);
+                        CharacterBody enemy_body = hit_enemy.hurtBox.healthComponent.body;
 
-                                CharacterBody body = hurtBox.healthComponent.body;
-                                if (body)
-                                {
-                                    if (body.characterMotor && body.characterMotor.isGrounded)
-                                    {
-                                        body.characterMotor.ApplyForce(Vector3.up * (baseKnockupForce + (body.characterMotor.mass*tailoredKnockupForceMultiplier)), true, false);
-                                    }
-                                    else if (body.rigidbody)
-                                    {
-                                        body.rigidbody.AddForce(Vector3.up * (baseKnockupForce + (body.characterMotor.mass * tailoredKnockupForceMultiplier)), ForceMode.Impulse);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                        BlastAttack blastAttackKnockup = new BlastAttack();
+                        blastAttackKnockup.radius = 1f;
+                        blastAttackKnockup.procCoefficient = 0f;
+                        blastAttackKnockup.position = hit_enemy.hitPosition;
+                        blastAttackKnockup.attacker = characterBody.gameObject;
+                        blastAttackKnockup.crit = false;
+                        blastAttackKnockup.baseDamage = 0f;
+                        blastAttackKnockup.canRejectForce = false;
+                        blastAttackKnockup.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+                        blastAttackKnockup.baseForce = 0;
+                        blastAttackKnockup.bonusForce = Vector3.up * (baseKnockupForce + (enemy_body.characterMotor.mass * tailoredKnockupForceMultiplier));
+                        blastAttackKnockup.teamIndex = characterBody.teamComponent.teamIndex;
+                        blastAttackKnockup.damageType = DamageType.NonLethal;
+                        blastAttackKnockup.attackerFiltering = AttackerFiltering.Default;
+                        blastAttackKnockup.Fire();
+                    }          
                 }
             }
         }
