@@ -74,44 +74,42 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
                 // Create damaging blast in area
                 if (isAuthority)
                 {
-                    BlastAttack blastAttack = new BlastAttack();
-                    blastAttack.radius = abilityRadius;
-                    blastAttack.procCoefficient = 0f;
-                    blastAttack.position = transform.position;
-                    blastAttack.attacker = characterBody.gameObject;
-                    blastAttack.crit = false;
-                    blastAttack.baseDamage = damageCoefficient * damageStat;
-                    blastAttack.canRejectForce = false;
-                    blastAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
-                    blastAttack.baseForce = 0;
-                    blastAttack.bonusForce = Vector3.zero;
-                    //blastAttack.bonusForce = Vector3.up * baseKnockupForce;
-                    blastAttack.teamIndex = characterBody.teamComponent.teamIndex;
-                    blastAttack.damageType = DamageType.Generic;
-                    blastAttack.attackerFiltering = AttackerFiltering.Default;
-                    BlastAttack.Result blastResult = blastAttack.Fire();
+                    BlastAttack pulverizeDamageAttack = new BlastAttack();
+                    pulverizeDamageAttack.radius = abilityRadius;
+                    pulverizeDamageAttack.procCoefficient = 0f;
+                    pulverizeDamageAttack.position = transform.position;
+                    pulverizeDamageAttack.attacker = characterBody.gameObject;
+                    pulverizeDamageAttack.crit = false;
+                    pulverizeDamageAttack.baseDamage = damageCoefficient * damageStat;
+                    pulverizeDamageAttack.canRejectForce = false;
+                    pulverizeDamageAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+                    pulverizeDamageAttack.baseForce = 0;
+                    pulverizeDamageAttack.bonusForce = Vector3.zero;
+                    pulverizeDamageAttack.teamIndex = characterBody.teamComponent.teamIndex;
+                    pulverizeDamageAttack.damageType = DamageType.Generic;
+                    pulverizeDamageAttack.attackerFiltering = AttackerFiltering.Default;
+                    BlastAttack.Result pulverizeDamageAttackResult = pulverizeDamageAttack.Fire();
                     
                     // Create individual blast for each hit enemy which knocks them up
-                    foreach (BlastAttack.HitPoint hit_enemy in blastResult.hitPoints)
+                    foreach (BlastAttack.HitPoint hit_enemy in pulverizeDamageAttackResult.hitPoints)
                     {
-
                         CharacterBody enemy_body = hit_enemy.hurtBox.healthComponent.body;
 
-                        BlastAttack blastAttackKnockup = new BlastAttack();
-                        blastAttackKnockup.radius = 1f;
-                        blastAttackKnockup.procCoefficient = 0f;
-                        blastAttackKnockup.position = hit_enemy.hitPosition;
-                        blastAttackKnockup.attacker = characterBody.gameObject;
-                        blastAttackKnockup.crit = false;
-                        blastAttackKnockup.baseDamage = 0f;
-                        blastAttackKnockup.canRejectForce = false;
-                        blastAttackKnockup.falloffModel = BlastAttack.FalloffModel.SweetSpot;
-                        blastAttackKnockup.baseForce = 0;
-                        blastAttackKnockup.bonusForce = Vector3.up * (baseKnockupForce + (enemy_body.characterMotor.mass * tailoredKnockupForceMultiplier));
-                        blastAttackKnockup.teamIndex = characterBody.teamComponent.teamIndex;
-                        blastAttackKnockup.damageType = DamageType.NonLethal;
-                        blastAttackKnockup.attackerFiltering = AttackerFiltering.Default;
-                        blastAttackKnockup.Fire();
+                        BlastAttack pulverizeKnockupAttack = new BlastAttack();
+                        pulverizeKnockupAttack.radius = 1f;
+                        pulverizeKnockupAttack.procCoefficient = 0f;
+                        pulverizeKnockupAttack.position = hit_enemy.hitPosition;
+                        pulverizeKnockupAttack.attacker = characterBody.gameObject;
+                        pulverizeKnockupAttack.crit = false;
+                        pulverizeKnockupAttack.baseDamage = 0f;
+                        pulverizeKnockupAttack.canRejectForce = false;
+                        pulverizeKnockupAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+                        pulverizeKnockupAttack.baseForce = 0;
+                        pulverizeKnockupAttack.bonusForce = Vector3.up * (baseKnockupForce + (enemy_body.characterMotor.mass * tailoredKnockupForceMultiplier));
+                        pulverizeKnockupAttack.teamIndex = characterBody.teamComponent.teamIndex;
+                        pulverizeKnockupAttack.damageType = DamageType.NonLethal;
+                        pulverizeKnockupAttack.attackerFiltering = AttackerFiltering.Default;
+                        pulverizeKnockupAttack.Fire();
                     }          
                 }
             }

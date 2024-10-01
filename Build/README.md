@@ -39,6 +39,7 @@ those who he can't close in on.**
   - Other players can't see Alistar's ability animations
   - Only the game host can do damage using Alistar's abilities; other players using can't deal damage using his abilities
   - Some of his abilities can be used to hit and knockback allies (might leave this partly in as it's pretty funny to headbutt another player)
+  - If you're not hosting the game you won't receive the attack and movement speed buffs from Trample
 - If you headbutt directly down you take fall damage
 
 ## TODO

@@ -11,7 +11,7 @@ namespace AlistarMod.Survivors.Alistar
         // Pulverize values
         public const float pulverizeDamageCoefficient = 5.5f;
         public const float pulverizeProcCoefficient = 1.0f;
-        public const float pulverizeCooldown = 1.0f;  // 3f
+        public const float pulverizeCooldown = 3.0f;  // 3f
 
         // Headbutt values
         public const float headbuttDamageCoefficient = 6.0f;

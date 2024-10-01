@@ -88,58 +88,63 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
                     }, true);
                 }
 
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, LayerIndex.entityPrecise.mask);
-                foreach (Collider hitCollider in hitColliders)
+                // Create damaging blast in area
+                BlastAttack trampleAttackDamage = new BlastAttack();
+                trampleAttackDamage.radius = radius;
+                trampleAttackDamage.procCoefficient = procCoefficient;
+                trampleAttackDamage.position = transform.position;
+                trampleAttackDamage.attacker = characterBody.gameObject;
+                trampleAttackDamage.crit = RollCrit();
+                trampleAttackDamage.baseDamage = damageCoefficient * damageStat;
+                trampleAttackDamage.canRejectForce = false;
+                trampleAttackDamage.falloffModel = BlastAttack.FalloffModel.None;
+                trampleAttackDamage.baseForce = 0;
+                trampleAttackDamage.bonusForce = Vector3.zero;
+                trampleAttackDamage.teamIndex = characterBody.teamComponent.teamIndex;
+                trampleAttackDamage.damageType = DamageType.Generic;
+                trampleAttackDamage.attackerFiltering = AttackerFiltering.Default;
+                BlastAttack.Result trampleAttackDamageResult = trampleAttackDamage.Fire();
+
+                // Create individual blast for each hit enemy which knocks them up if they are grounded
+                foreach (BlastAttack.HitPoint hit_enemy in trampleAttackDamageResult.hitPoints)
                 {
-                    HurtBox hurtBox = hitCollider.GetComponent<HurtBox>();
-                    if (hurtBox && Util.IsValid(hurtBox) && hurtBox.healthComponent && hurtBox.healthComponent.body != characterBody)
+                    CharacterBody enemy_body = hit_enemy.hurtBox.healthComponent.body;
+
+                    // Add debuff which locks enemy movement
+                    // AddDebuff(enemy_body);
+
+                    // Apply knock-up force only to grounded enemies
+                    bool isGrounded = hit_enemy.hurtBox.healthComponent.body.characterMotor && hit_enemy.hurtBox.healthComponent.body.characterMotor.isGrounded;
+                    bool hasRigidbody = hit_enemy.hurtBox.healthComponent.body.rigidbody != null;
+                    bool isOnGround = hasRigidbody && Physics.Raycast(hit_enemy.hurtBox.transform.position, Vector3.down, 0.1f, LayerIndex.world.mask);
+
+                    if (isGrounded || isOnGround)
                     {
-                        if (!hitTargets.Contains(hurtBox.healthComponent))
-                        {
-                            hitTargets.Add(hurtBox.healthComponent); // Add the target to the HashSet
+                        BlastAttack trampleKnockupAttack = new BlastAttack();
+                        trampleKnockupAttack.radius = 1f;
+                        trampleKnockupAttack.procCoefficient = 0f;
+                        trampleKnockupAttack.position = hit_enemy.hitPosition;
+                        trampleKnockupAttack.attacker = characterBody.gameObject;
+                        trampleKnockupAttack.crit = false;
+                        trampleKnockupAttack.baseDamage = 0f;
+                        trampleKnockupAttack.canRejectForce = false;
+                        trampleKnockupAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+                        trampleKnockupAttack.baseForce = 0;
+                        trampleKnockupAttack.bonusForce = Vector3.up * knockupForce;
+                        trampleKnockupAttack.teamIndex = characterBody.teamComponent.teamIndex;
+                        trampleKnockupAttack.damageType = DamageType.NonLethal;
+                        trampleKnockupAttack.attackerFiltering = AttackerFiltering.Default;
+                        trampleKnockupAttack.Fire();
+                    }
 
-                            AddDebuff(hurtBox.healthComponent.body);
-                            hurtBox.healthComponent.body.RecalculateStats();
-
-                            DamageInfo damageInfo = new DamageInfo
-                            {
-                                attacker = gameObject,
-                                inflictor = gameObject,
-                                damage = damageCoefficient * damageStat,
-                                position = hurtBox.transform.position,
-                                procCoefficient = procCoefficient,
-                                crit = RollCrit(),
-                                damageColorIndex = DamageColorIndex.Default,
-                                force = Vector3.zero
-                            };
-                            hurtBox.healthComponent.TakeDamage(damageInfo);
-                            GlobalEventManager.instance.OnHitEnemy(damageInfo, hurtBox.healthComponent.gameObject);
-
-                            // Apply knock-up force only to grounded enemies
-                            bool isGrounded = hurtBox.healthComponent.body.characterMotor && hurtBox.healthComponent.body.characterMotor.isGrounded;
-                            bool hasRigidbody = hurtBox.healthComponent.body.rigidbody != null;
-                            bool isOnGround = hasRigidbody && Physics.Raycast(hurtBox.transform.position, Vector3.down, 0.1f, LayerIndex.world.mask);
-
-                            if (isGrounded || isOnGround)
-                            {
-                                if (hurtBox.healthComponent.body.characterMotor)
-                                {
-                                    hurtBox.healthComponent.body.characterMotor.ApplyForce(Vector3.up * knockupForce, true, false);
-                                }
-                                else if (hurtBox.healthComponent.body.rigidbody)
-                                {
-                                    hurtBox.healthComponent.body.rigidbody.AddForce(Vector3.up * knockupForce, ForceMode.Impulse);
-                                }
-                            }
-
-                            hitStackCount++;
-                            if (hitStackCount >= maxHitStacks)
-                            {
-                                Util.PlaySound("Play_teamWarCry_activate", gameObject);
-                                AddBuff();
-                                hitStackCount = 0;
-                            }
-                        }
+                    // Increment stacks to know when to apply buff
+                    // Stack for each enemy hit
+                    hitStackCount++;
+                    if (hitStackCount >= maxHitStacks)
+                    {
+                        Util.PlaySound("Play_teamWarCry_activate", gameObject);
+                        AddBuff();
+                        hitStackCount = 0;
                     }
                 }
             }
