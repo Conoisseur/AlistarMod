@@ -20,7 +20,7 @@ namespace AlistarMod.Survivors.Alistar
 
 
         // Trample values
-        public const float trampleDamageCoefficient = 0.5f;
+        public const float trampleDamageCoefficient = 0.7f;
         public const float trampleProcCoefficient = 0.1f;
         public const float trampleCooldown = 10.0f;
         public static float trampleBaseDuration = 5f;

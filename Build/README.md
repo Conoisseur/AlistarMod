@@ -35,10 +35,8 @@ those who he can't close in on.**
 ![Screenshot](https://raw.githubusercontent.com/Conoisseur/AlistarMod/refs/heads/master/imgs/trample_description.png)
 
 ## Known Issues (To Fix)
-- Various Networking/Multiplayer issues (UNTIL THESE ARE FIXED I DON'T RECOMMEND PLAYING HIM IN MULTIPLAYER. Ideally this would be patched before release but I have less time to work on this than I had before and want to get it out now)
+- Networking/Multiplayer issues 
   - Other players can't see Alistar's ability animations
-  - Only the game host can do damage using Alistar's abilities; other players using can't deal damage using his abilities
-  - Some of his abilities can be used to hit and knockback allies (might leave this partly in as it's pretty funny to headbutt another player)
   - If you're not hosting the game you won't receive the attack and movement speed buffs from Trample
 - If you headbutt directly down you take fall damage
 

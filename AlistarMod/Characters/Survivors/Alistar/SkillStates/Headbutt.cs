@@ -4,6 +4,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.AddressableAssets;
+using HG;
 
 namespace AlistarMod.Survivors.Alistar.SkillStates
 {
@@ -14,7 +15,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
         public static float duration = 0.75f;  
         public static float initialSpeedCoefficient = 6.0f;
         public static float finalSpeedCoefficient = 2.0f;
-        public static float baseKnockbackForce = 1000f;
+        public static float baseKnockbackForce = 800f;
         public static float tailoredKnockbackForceMultiplier = 60f; // Used to calculate force to apply to enemy based on it's mass and other features
 
         public static float hitboxRadius = 4f; 
@@ -89,33 +90,25 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
                     HurtBox hurtBox = hitCollider.GetComponent<HurtBox>();
                     if (hurtBox && Util.IsValid(hurtBox) && hurtBox.healthComponent && hurtBox.healthComponent.body != characterBody)
                     {
-                        // Deal damage and apply knockback
-                        DamageInfo damageInfo = new DamageInfo
-                        {
-                            attacker = gameObject,
-                            damage = damageCoefficient * damageStat,
-                            position = hurtBox.transform.position,
-                            procCoefficient = 1.0f,
-                            crit = RollCrit(),
-                            damageColorIndex = DamageColorIndex.Default,
-                            force = Vector3.zero
-                        };
-                        hurtBox.healthComponent.TakeDamage(damageInfo);
-                        GlobalEventManager.instance.OnHitEnemy(damageInfo, hurtBox.healthComponent.gameObject);
 
-                        // Apply knockback
                         CharacterBody hitBody = hurtBox.healthComponent.body;
-                        if (hitBody)
-                        {
-                            if (hitBody.characterMotor)
-                            {
-                                hitBody.characterMotor.ApplyForce(headbuttDirection * (baseKnockbackForce + (hitBody.characterMotor.mass * tailoredKnockbackForceMultiplier)), true, false);
-                            }
-                            else if (hitBody.rigidbody)
-                            {
-                                hitBody.rigidbody.AddForce(headbuttDirection * (baseKnockbackForce + (hitBody.characterMotor.mass * tailoredKnockbackForceMultiplier)), ForceMode.Impulse);
-                            }
-                        }
+
+                        // Create damaging blast in area
+                        BlastAttack headbutAttack = new BlastAttack();
+                        headbutAttack.radius = 5f;
+                        headbutAttack.procCoefficient = procCoefficient;
+                        headbutAttack.position = transform.position;
+                        headbutAttack.attacker = characterBody.gameObject;
+                        headbutAttack.crit = RollCrit();
+                        headbutAttack.baseDamage = damageCoefficient * damageStat;
+                        headbutAttack.canRejectForce = false;
+                        headbutAttack.falloffModel = BlastAttack.FalloffModel.None;
+                        headbutAttack.baseForce = 0f;
+                        headbutAttack.bonusForce = headbuttDirection * (baseKnockbackForce + (hitBody.characterMotor.mass * tailoredKnockbackForceMultiplier));
+                        headbutAttack.teamIndex = characterBody.teamComponent.teamIndex;
+                        headbutAttack.damageType = DamageType.Generic;
+                        headbutAttack.attackerFiltering = AttackerFiltering.Default;
+                        BlastAttack.Result trampleAttackDamageResult = headbutAttack.Fire();
 
                         EffectManager.SpawnEffect(onHitEffectPrefab, new EffectData
                         {
