@@ -70,24 +70,24 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
 
         private void DealDamage()
         {
+            PlayAnimation("FullBody, Override", "Trample", "Trample.playbackRate", damageInterval);
+
+            Util.PlaySound("Play_bison_headbutt_attack_hit", gameObject);
+
+            // Spawn effects randomly in radius around player
+            for (int i = 0; i < 12; i++)
+            {
+                Vector3 randomPosition = GetRandomPositionWithinRadius(characterBody.footPosition, radius);
+                EffectManager.SpawnEffect(groundSlamEffectPrefab, new EffectData
+                {
+                    origin = randomPosition,
+                    scale = AlistarStaticValues.trampleRadius,
+                    rotation = Quaternion.Euler(90f, 0f, 0f)
+                }, true);
+            }
+
             if (isAuthority)
             {
-                PlayAnimation("FullBody, Override", "Trample", "Trample.playbackRate", damageInterval);
-
-                Util.PlaySound("Play_bison_headbutt_attack_hit", gameObject);
-
-                // Spawn effects randomly in radius around player
-                for (int i = 0; i < 12; i++)
-                {
-                    Vector3 randomPosition = GetRandomPositionWithinRadius(characterBody.footPosition, radius);
-                    EffectManager.SpawnEffect(groundSlamEffectPrefab, new EffectData
-                    {
-                        origin = randomPosition,
-                        scale = AlistarStaticValues.trampleRadius,
-                        rotation = Quaternion.Euler(90f, 0f, 0f)
-                    }, true);
-                }
-
                 // Create damaging blast in area
                 BlastAttack trampleAttackDamage = new BlastAttack();
                 trampleAttackDamage.radius = radius;

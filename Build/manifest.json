@@ -1,9 +1,9 @@
 {
-    "name": "AlistarMod",
-    "author": "Conoisseur",
-    "version_number": "1.0.0",
-    "website_url": "",
-    "description": "Adds Alistar from League of Legends to Risk of Rain 2",
+  "name": "AlistarMod",
+  "author": "Conoisseur",
+  "version_number": "1.0.1",
+  "website_url": "https://github.com/Conoisseur/AlistarMod",
+  "description": "Adds Alistar from League of Legends to Risk of Rain 2",
   "dependencies": [
     "bbepis-BepInExPack-5.4.1905",
     "RiskofThunder-R2API_Core-5.0.3",
