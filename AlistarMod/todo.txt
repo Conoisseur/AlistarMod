@@ -21,7 +21,6 @@ Polish to add:
 - death animation
 
 Stuff for next ship
-- Fix agile tag on ability descriptions/look into tags
-- cleanup readme and add more screenshots
-- fix all terminal errors
-- fix networking errors
+- Find way for him to deal with flying enemies easier, wandering vagrant is brutal for him
+- Add Alistar color theme on menu
+- Fix buffs not working for non host players

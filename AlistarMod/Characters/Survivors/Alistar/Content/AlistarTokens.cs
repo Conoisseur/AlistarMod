@@ -52,7 +52,7 @@ namespace AlistarMod.Survivors.Alistar
 
             #region Secondary
             Language.Add(prefix + "PULVERIZE_NAME", "Pulverize");
-            Language.Add(prefix + "PULVERIZE_DESCRIPTION", $"Alistar smashes the ground, dealing <style=cIsDamage>{100f * AlistarStaticValues.pulverizeDamageCoefficient}% damage</style> to nearby enemies and <style=cIsUtility>knocking them into the air</style>.");
+            Language.Add(prefix + "PULVERIZE_DESCRIPTION", $"Alistar smashes the ground, dealing <style=cIsDamage>{100f * AlistarStaticValues.pulverizeDamageCoefficient}% damage</style> to nearby enemies and <style=cIsUtility>knocking them into the air</style>. Enemies in the center of impact take more damage.");
             #endregion
 
             #region Utility

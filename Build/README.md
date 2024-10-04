@@ -35,7 +35,7 @@ those who he can't close in on.**
 ![Screenshot](https://raw.githubusercontent.com/Conoisseur/AlistarMod/refs/heads/master/imgs/trample_description.png)
 
 ## Known Issues (To Fix)
-- If you're not hosting the game you won't receive the attack and movement speed buffs from Trample
+- If you're not hosting the game you won't receive the attack and movement speed buffs from Trample or the armor buff from Unbreakable Will
 - If you headbutt directly down you take fall damage
 
 ## TODO
@@ -66,6 +66,7 @@ Potential Polish I might look into:
   - Players can no longer friendly fire each other
   - Other players can now see Alistars animations
 - Remove debuff given to enemies from Trample (this might be added back in at some point)
+- Pulverize does more damage in the center now
 
 ### 1.0.0
 - Release

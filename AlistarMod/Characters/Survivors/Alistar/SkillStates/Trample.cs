@@ -128,7 +128,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
                         trampleKnockupAttack.crit = false;
                         trampleKnockupAttack.baseDamage = 0f;
                         trampleKnockupAttack.canRejectForce = false;
-                        trampleKnockupAttack.falloffModel = BlastAttack.FalloffModel.SweetSpot;
+                        trampleKnockupAttack.falloffModel = BlastAttack.FalloffModel.None;
                         trampleKnockupAttack.baseForce = 0;
                         trampleKnockupAttack.bonusForce = Vector3.up * knockupForce;
                         trampleKnockupAttack.teamIndex = characterBody.teamComponent.teamIndex;

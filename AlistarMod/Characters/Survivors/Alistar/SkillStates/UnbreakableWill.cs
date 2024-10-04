@@ -22,7 +22,7 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
             procCoefficient = AlistarStaticValues.UnbreakableWillProcCoefficient;
             pushForce = 300f;
             bonusForce = Vector3.zero;
-            baseDuration = 1f;
+            baseDuration = 0.9f;
 
             attackStartPercentTime = 0.2f;
             attackEndPercentTime = 0.4f;

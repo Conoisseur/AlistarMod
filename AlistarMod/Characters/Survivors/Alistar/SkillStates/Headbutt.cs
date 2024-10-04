@@ -13,8 +13,8 @@ namespace AlistarMod.Survivors.Alistar.SkillStates
         public static float procCoefficient = AlistarStaticValues.headbuttProcCoefficient;
         public static float damageCoefficient = AlistarStaticValues.headbuttDamageCoefficient;
         public static float duration = 0.75f;  
-        public static float initialSpeedCoefficient = 6.0f;
-        public static float finalSpeedCoefficient = 2.0f;
+        public static float initialSpeedCoefficient = 6.5f;
+        public static float finalSpeedCoefficient = 2.5f;
         public static float baseKnockbackForce = 800f;
         public static float tailoredKnockbackForceMultiplier = 60f; // Used to calculate force to apply to enemy based on it's mass and other features
 
