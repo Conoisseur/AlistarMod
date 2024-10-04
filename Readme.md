@@ -35,18 +35,10 @@ those who he can't close in on.**
 ![Screenshot](https://raw.githubusercontent.com/Conoisseur/AlistarMod/refs/heads/master/imgs/trample_description.png)
 
 ## Known Issues (To Fix)
-- Various Networking/Multiplayer issues (UNTIL THESE ARE FIXED I DON'T RECOMMEND PLAYING HIM IN MULTIPLAYER. Ideally this would be patched before release but I have less time to work on this than I had before and want to get it out now)
-  - Other players can't see Alistar's ability animations
-  - Only the game host can do damage using Alistar's abilities; other players using can't deal damage using his abilities
-  - Some of his abilities can be used to hit and knockback allies (might leave this partly in as it's pretty funny to headbutt another player)
+- If you're not hosting the game you won't receive the attack and movement speed buffs from Trample
 - If you headbutt directly down you take fall damage
 
 ## TODO
-Priority List
-- Remove all unecessary code/cleanup codebase
-- Fix networking/playing with other Alistars
-- Clean up this README and add the Github link
-
 Features that will probably be added at some point:
 - Passive
 - Skins
@@ -68,7 +60,13 @@ Potential Polish I might look into:
 - TheTimeSweeper - this mod used HenryMod as base template and reference
 
 ## Patch Notes
+### 1.0.1
+- Fix multiplayer bugs
+  - Abilities now work for non host players
+  - Players can no longer friendly fire each other
+  - Other players can now see Alistars animations
+- Remove debuff given to enemies from Trample (this might be added back in at some point)
 
-## 1.0.0
+### 1.0.0
 - Release
 
