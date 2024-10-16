@@ -38,7 +38,7 @@ namespace AlistarMod.Survivors.Alistar
             subtitleNameToken = ALISTAR_PREFIX + "SUBTITLE",
 
             characterPortrait = assetBundle.LoadAsset<Texture>("alistar_icon"),
-            bodyColor = Color.white,
+            bodyColor = Color.magenta,
             sortPosition = 100,
 
             crosshair = MyAssets.LoadCrosshair("Standard"),

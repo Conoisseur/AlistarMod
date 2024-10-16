@@ -23,4 +23,7 @@ Polish to add:
 Stuff for next ship
 - Find way for him to deal with flying enemies easier, wandering vagrant is brutal for him
 - Add Alistar color theme on menu
-- Fix buffs not working for non host players
+- Fix buffs not working for non host players, look at henrymod roll for this
+- Clean up codebase more, remove all henry stuff
+- Look into refining primary, it moveing you forward can feel jarring and works too well in the air
+- Look into way to mitigate fall damage for him
