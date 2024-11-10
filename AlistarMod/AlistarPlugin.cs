@@ -50,7 +50,7 @@ namespace AlistarMod
             new Modules.ContentPacks().Initialize();
 
             // Remove this line before publishing/releasing your mod!
-            On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { };
+            //On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { };
         }
     }
 }
