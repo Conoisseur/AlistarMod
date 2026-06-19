@@ -1,4 +1,5 @@
 # AlistarMod
+I HAVE NOT FORGOTTEN ABOUT THIS. When I get time I will update and push this to the thunderstore. It's at the end of a long list though so may be a while. If you have any questions or want an update feel free to reach out.
 
 This mod was created under Riot Games' "Legal Jibber Jabber" policy using assets owned by Riot Games. Riot Games does not endorse or sponsor this project.
 
